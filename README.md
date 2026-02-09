@@ -106,6 +106,8 @@ Module ini dirancang dengan arsitektur scalable untuk mendukung unlimited concur
 ### Quick Links
 
 - **[Quick Start Guide](QUICKSTART.md)** - Get up and running in 10 minutes
+- **[How to Prove Bi-Directional](HOW_TO_PROVE.md)** - ⭐ Verify unlimited channels capability
+- **[Testing Guide](TESTING.md)** - Comprehensive testing scenarios
 - **[API Reference](API.md)** - Complete API documentation
 - **[Deployment Guide](DEPLOYMENT.md)** - Production deployment instructions
 - **[Technical Summary](SUMMARY.md)** - Architecture and design decisions
