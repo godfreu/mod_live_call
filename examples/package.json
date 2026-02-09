@@ -1,0 +1,29 @@
+{
+  "name": "mod-live-call-websocket-server",
+  "version": "1.0.0",
+  "description": "WebSocket server example for mod_live_call",
+  "main": "websocket_server_nodejs.js",
+  "scripts": {
+    "start": "node websocket_server_nodejs.js",
+    "dev": "nodemon websocket_server_nodejs.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "freeswitch",
+    "websocket",
+    "audio",
+    "streaming",
+    "voip"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

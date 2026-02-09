@@ -1,0 +1,26 @@
+# Object files
+*.o
+*.so
+*.a
+*.dylib
+
+# Compiled binaries
+mod_live_call.so
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+
+# Logs
+*.log

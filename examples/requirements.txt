@@ -1,0 +1,2 @@
+# Python dependencies for WebSocket server example
+websockets>=12.0

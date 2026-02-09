@@ -1,0 +1,145 @@
+<!-- 
+  Dialplan Examples untuk mod_live_call
+  
+  Copy ke: /usr/local/freeswitch/conf/dialplan/default/
+  atau tambahkan ke dialplan Anda
+-->
+
+<include>
+  <!-- Simple Example: Start streaming on specific extension -->
+  <extension name="live_call_simple">
+    <condition field="destination_number" expression="^9000$">
+      <action application="answer"/>
+      <action application="log" data="INFO Starting live call streaming"/>
+      <action application="live_call" data="start"/>
+      <action application="playback" data="ivr/ivr-your_call_is_being_recorded.wav"/>
+      <action application="sleep" data="30000"/>
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Bridge with Live Streaming: Record both sides of conversation -->
+  <extension name="live_call_bridge">
+    <condition field="destination_number" expression="^9001$">
+      <action application="answer"/>
+      <action application="live_call" data="start"/>
+      <action application="bridge" data="user/1000@${domain_name}"/>
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Conference with Live Streaming -->
+  <extension name="live_call_conference">
+    <condition field="destination_number" expression="^9002$">
+      <action application="answer"/>
+      <action application="live_call" data="start"/>
+      <action application="conference" data="test_conference@default"/>
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Interactive Voice Response with Live Streaming -->
+  <extension name="live_call_ivr">
+    <condition field="destination_number" expression="^9003$">
+      <action application="answer"/>
+      <action application="live_call" data="start"/>
+      <action application="sleep" data="1000"/>
+      
+      <!-- Play menu -->
+      <action application="playback" data="ivr/ivr-welcome.wav"/>
+      <action application="read" data="1 1 ivr/ivr-enter_ext.wav digits 5000 #"/>
+      
+      <!-- Process response -->
+      <action application="log" data="INFO User entered: ${digits}"/>
+      
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Call Forwarding with Live Streaming -->
+  <extension name="live_call_forward">
+    <condition field="destination_number" expression="^9004$">
+      <action application="set" data="hangup_after_bridge=true"/>
+      <action application="answer"/>
+      <action application="live_call" data="start"/>
+      
+      <!-- Try multiple destinations -->
+      <action application="bridge" data="user/1000@${domain_name}"/>
+      <action application="bridge" data="user/1001@${domain_name}"/>
+      
+      <!-- If no answer, go to voicemail -->
+      <action application="voicemail" data="default ${domain_name} 1000"/>
+      
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Call Queue with Live Streaming -->
+  <extension name="live_call_queue">
+    <condition field="destination_number" expression="^9005$">
+      <action application="answer"/>
+      <action application="live_call" data="start"/>
+      <action application="playback" data="ivr/ivr-hold_for_next_agent.wav"/>
+      <action application="callcenter" data="support@default"/>
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Voicemail with Live Streaming -->
+  <extension name="live_call_voicemail">
+    <condition field="destination_number" expression="^9006$">
+      <action application="answer"/>
+      <action application="live_call" data="start"/>
+      <action application="voicemail" data="default ${domain_name} ${caller_id_number}"/>
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Echo Test with Live Streaming -->
+  <extension name="live_call_echo">
+    <condition field="destination_number" expression="^9007$">
+      <action application="answer"/>
+      <action application="live_call" data="start"/>
+      <action application="echo"/>
+      <action application="live_call" data="stop"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- API Control Example -->
+  <extension name="live_call_api_control">
+    <condition field="destination_number" expression="^9008$">
+      <action application="answer"/>
+      <action application="set" data="api_result=${uuid_live_call ${uuid} start}"/>
+      <action application="log" data="INFO API Result: ${api_result}"/>
+      <action application="playback" data="ivr/ivr-recording_started.wav"/>
+      <action application="sleep" data="10000"/>
+      <action application="set" data="api_result=${uuid_live_call ${uuid} stop}"/>
+      <action application="hangup"/>
+    </condition>
+  </extension>
+
+  <!-- Auto-start for all inbound calls (advanced) -->
+  <extension name="live_call_auto_inbound">
+    <condition field="destination_number" expression="^(\d{4})$">
+      <!-- Automatically start streaming for all calls -->
+      <action application="live_call" data="start"/>
+      
+      <!-- Set channel variable for tracking -->
+      <action application="set" data="live_call_enabled=true"/>
+      
+      <!-- Continue with normal call routing -->
+      <action application="bridge" data="user/$1@${domain_name}"/>
+      
+      <!-- Cleanup on hangup -->
+      <action application="live_call" data="stop"/>
+    </condition>
+  </extension>
+</include>

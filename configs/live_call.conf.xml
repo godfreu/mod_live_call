@@ -1,0 +1,18 @@
+<configuration name="live_call.conf" description="Live Call Module Configuration">
+  <settings>
+    <!-- WebSocket server URL -->
+    <param name="ws-server" value="ws://localhost:8080/audio"/>
+    
+    <!-- Maximum concurrent threads (unlimited channels) -->
+    <param name="max-threads" value="1000"/>
+    
+    <!-- Audio buffer size in bytes -->
+    <param name="buffer-size" value="8192"/>
+    
+    <!-- Sample rate (8000 for PCMU, 16000 for wideband) -->
+    <param name="sample-rate" value="8000"/>
+    
+    <!-- Debug level (0=none, 1=info, 2=debug) -->
+    <param name="debug-level" value="0"/>
+  </settings>
+</configuration>
